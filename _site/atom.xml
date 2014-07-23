@@ -2,19 +2,19 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
  <title>nacmacfeegle</title>
- <link href="http://nacmacfeegle.github.iohttp://nacmacfeegle.github.io/atom.xml" rel="self"/>
- <link href="http://nacmacfeegle.github.iohttp://nacmacfeegle.github.io/"/>
- <updated>2014-07-23T09:46:04+01:00</updated>
+ <link href="http://nacmacfeegle.github.io/atom.xml" rel="self"/>
+ <link href="http://nacmacfeegle.github.io/"/>
+ <updated>2014-07-23T13:46:26+01:00</updated>
  <id>http://nacmacfeegle.github.io</id>
  <author>
-   <name>danc</name>
-   <email>notgiven@gmail.com</email>
+   <name>dan costelloe</name>
+   <email>not-provided@gmail.com</email>
  </author>
 
  
  <entry>
    <title>Example content</title>
-   <link href="http://nacmacfeegle.github.iohttp://nacmacfeegle.github.io//2014/01/01/example-content/"/>
+   <link href="http://nacmacfeegle.github.io//2014/01/01/example-content/"/>
    <updated>2014-01-01T00:00:00+00:00</updated>
    <id>http://nacmacfeegle.github.io/2014/01/01/example-content</id>
    <content type="html">&lt;div class=&quot;message&quot;&gt;
