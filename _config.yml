@@ -1,0 +1,22 @@
+# Dependencies
+markdown:         redcarpet
+pygments:         true
+
+# Permalinks
+permalink:        pretty
+
+# Setup
+title:            nacmacfeegle
+tagline:          developer blog
+url:              http://nacmacfeegle.github.io
+paginate:         1
+baseurl:          /
+author:
+  name:           dan costelloe
+  url:            https://twitter.com/danc_ie
+  email:          not-provided@gmail.com
+
+# Custom vars
+version:          1.0.0
+github:
+  repo:           https://github.com/nacmacfeegle/nacmacfeegle.github.io
