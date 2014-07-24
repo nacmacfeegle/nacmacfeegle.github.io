@@ -8,7 +8,7 @@ I recently had a requirement to fetch a bunch of JSON data (actually, a *sequenc
 
 
 ## First out of the blocks
-My specific use case was to enrich a list of groups with the user-membership of each group. The idea can be illustrated using some dummy data and test webservice calls. Instead of using external fictitious WS calls, let's first set up some of our own to keep all functionality self-contained (this example uses activator-1.2.3):
+My specific use case was to enrich a list of groups with the user-membership of each group. The idea can be illustrated using some dummy data and test webservice calls. Instead of using external fictitious WS calls, let's first set up some of our own to keep all functionality self-contained (this example uses <a href="http://www.playframework.com/download">Play/Scala -- activator-1.2.3</a>):
 
 ``` scala
 
