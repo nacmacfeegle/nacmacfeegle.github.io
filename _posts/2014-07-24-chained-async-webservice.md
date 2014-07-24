@@ -4,7 +4,7 @@ title: Composable async without blocking
 comments: True
 ---
 
-I recently had a requirement to fetch a blob of JSON data (actually, a *sequence* of JSON objects) from a web service and enrich that data with extra information (which is also retrieved from yet another web service). The requirement was to provide the enriched data object back to the client -- and to do so without blocking on the server. This post documents my efforts.
+I recently had a requirement to fetch a bunch of JSON data (actually, a *sequence* of JSON objects) from a web service and enrich that data with extra information (which is also retrieved from yet another web service). The requirement was to provide the enriched data object back to the client -- and to do so without blocking on the server. This post documents my efforts.
 
 
 ## First out of the blocks
@@ -160,7 +160,7 @@ def findGroups = Action.async {
   // flatten to Future[Seq[Group]]
   val resultFuture = ys flatMap(x => x)
 
-  resultFuture map { response => 
+  resultFuture map { response` => 
     Ok(Json.toJson(response))
   } recover {
     case NonFatal(t) =>
@@ -169,7 +169,10 @@ def findGroups = Action.async {
 }
 {% endhighlight %}
 
+The `allGroups` code is just a modified version of `findGroups` that returns a `Future[Seq[Group]]` rather than pulling out the JSON.
+
+
 All code for the above is <a href="https://github.com/nacmacfeegle/AsyncWSChain">available on GitHub</a>. 
 
-Go fork yourself!
+Go fork, yourself!
 
