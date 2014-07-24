@@ -10,7 +10,7 @@ I recently had a requirement to fetch a bunch of JSON data (actually, a *sequenc
 ## First out of the blocks
 My specific use case was to enrich a list of groups with the user-membership of each group. The idea can be illustrated using some dummy data and test webservice calls. Instead of using external fictitious WS calls, let's first set up some of our own to keep all functionality self-contained (this example uses activator-1.2.3):
 
-{% highlight js %}
+``` scala
 
 val group1 = Group("g001", "group1", None)
 val group2 = Group("g002", "group2", None)
@@ -37,18 +37,18 @@ def testGroupUsers(gid: String) = Action {
   val res = dummyGroupMembers(gid)
   Ok(Json.toJson(res))
 }
-{% endhighlight %}
+```
 
 ..and in the `routes` file:
 
-{% highlight js %}
+``` scala
 GET /testgroup			  controllers.Groups.testGroup
 GET /testgroup/:gid/users controllers.Groups.testGroupUsers(gid: String)
-{% endhighlight %}
+```
 
 Next, let's create an async call to the first groups webservice:
 
-{% highlight js %}
+``` scala
 def findGroups() = Action.async {
 
   val url = "http://localhost:9000/testgroup"
@@ -72,8 +72,7 @@ def findGroups() = Action.async {
     }
   } 
 }
-{% endhighlight %}
-
+```
 So far, so good all nice and asynchro...
 
 Wait... (Await?)
@@ -82,7 +81,7 @@ Hang on...
 
 What's this `enrich` business?
 
-{% highlight js %}
+``` scala
 def enrich(grps: Seq[Group]): Seq[Group] = {
   grps map { grp => 
   	Group(grp.id, 
@@ -106,7 +105,7 @@ def groupUsers(gid: String): Future[Seq[User]] = {
     }
   }
 }
-{% endhighlight %}
+```
 
 So much for non-blocking. Although the code above gets the job done, the enrichment step involves a call to `Await.result`, and this kind of thing is best avoided if at all possible.
 
@@ -120,19 +119,19 @@ Of course there is. And others have had this kind of problem before. Yevgeniy Br
 
 I figured it would go something like this:
 
-{% highlight js %}
+``` scala
 for {
 	g <- groups
 	users <- groupUsers(g.id)
 } yield (Group(g.name, g.id, Some(users)))
-{% endhighlight %}
+```
 
 Unfortunately, the scala compiler had other ideas and I was greeted with messages of the following form:
 
-{% highlight js %}
+``` scala
 error: type mismatch; found : scala.concurrent.Future[Int] 
 required: scala.collection.GenTraversableOnce[?]
-{% endhighlight %}
+```
 
 Some googling brought me to <a href="http://stackoverflow.com/questions/20108523/combining-scala-futures-and-collections-in-for-comprehensions">this StackOverflow post</a> which provides a good explanation of why these types of mismatch occur.
 
@@ -143,7 +142,7 @@ Well, it turns out that `Promise.sequence` has been deprecated, however `Future.
 
 Here's how I ended up using it to remove the troublesome `Await` call:
 
-{%highlight js %}
+``` scala
 def findGroups = Action.async {
 
   // xs is a Future[Seq[Future[Group]]
@@ -167,10 +166,9 @@ def findGroups = Action.async {
       Ok(EMPTY_JSON)
   }
 }
-{% endhighlight %}
+```
 
 The `allGroups` code is just a modified version of `findGroups` that returns a `Future[Seq[Group]]` rather than pulling out the JSON.
-
 
 All code for the above is <a href="https://github.com/nacmacfeegle/AsyncWSChain">available on GitHub</a>. 
 
