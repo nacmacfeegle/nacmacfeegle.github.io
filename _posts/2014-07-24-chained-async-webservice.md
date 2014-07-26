@@ -159,7 +159,7 @@ def findGroups = Action.async {
   // flatten to Future[Seq[Group]]
   val resultFuture = ys flatMap(x => x)
 
-  resultFuture map { response` => 
+  resultFuture map { response => 
     Ok(Json.toJson(response))
   } recover {
     case NonFatal(t) =>
